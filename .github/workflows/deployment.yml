@@ -36,7 +36,7 @@ jobs:
 
       - name: CDK Diff
         if: github.event_name == 'pull_request'
-        run: npm run cdkdiff
+        run: cdk diff || true
         working-directory: ./cdk
 
       - name: Unit Test
@@ -45,5 +45,5 @@ jobs:
 
       - name: CDK Deploy
         if: github.event_name == 'push'
-        run: npm run cdkdeploy
+        run: cdk deploy ApiStack --require-approval never
         working-directory: ./cdk
