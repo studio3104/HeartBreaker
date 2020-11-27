@@ -8,9 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk",
-    "cdkdiff": "cdk diff || true",
-    "cdkdeploy": "cdk deploy --require-approval never"
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.75.0",
