@@ -12,7 +12,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  Setup:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,31 +25,25 @@ jobs:
           java-package: jdk
           architecture: x64
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: '12'
 
-  PullRequestBuild:
-    runs-on: ubuntu-latest
-    needs: Setup
-    steps:
-      - uses: actions/checkout@v2
+      - name: Install CDK Dependencies
+        run: npm i -g aws-cdk && npm ci
+        working-directory: ./cdk
+
       - name: CDK Diff
         if: github.event_name == 'pull_request'
-        run: npm run cdk:diff
+        run: npm run cdkdiff
         working-directory: ./cdk
 
       - name: Unit Test
         if: github.event_name == 'pull_request'
         run: gradle test
 
-  Deployment:
-    runs-on: ubuntu-latest
-    needs: Setup
-    steps:
-      - uses: actions/checkout@v2
       - name: CDK Deploy
         if: github.event_name == 'push'
-        run: npm run cdk:deploy
+        run: npm run cdkdeploy
         working-directory: ./cdk
