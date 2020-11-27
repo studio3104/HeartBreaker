@@ -25,11 +25,14 @@ dependencies {
     implementation 'com.amazonaws:aws-lambda-java-events:3.1.0'
     runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.2.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 }
 
 test {
-    useJUnitPlatform {
-        includeEngines 'junit-jupiter'
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams true
+        events 'started', 'skipped', 'passed', 'failed'
+        exceptionFormat 'full'
     }
 }
